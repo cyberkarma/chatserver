@@ -1,6 +1,8 @@
 package main
 
-import "github.com/cyberkarma/chatserver/cmd"
+import (
+	"github.com/cyberkarma/chatserver/cmd"
+)
 
 func main() {
 	cmd.Execute()
