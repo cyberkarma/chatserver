@@ -14,7 +14,10 @@ var RunServer = &cobra.Command{
 	Long:  "Blablabla",
 	Run: func(cmd *cobra.Command, args []string) {
 		router := server.RouterBuilder{}
-		http.ListenAndServe(":3000", router.Build())
+		err := http.ListenAndServe(":3000", router.Build())
+		if err != nil {
+			fmt.Println(err)
+		}
 		fmt.Println("Server is working now")
 	},
 }

@@ -11,6 +11,7 @@ func main() {
 	//	w.Write([]byte("Hello World!"))
 	//})
 	//r.Get("/api/{greeter}", getGreeter)
+	//http.ListenAndServe(":3000", r)
 
 	cmd.Execute()
 }
