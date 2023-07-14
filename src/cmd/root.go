@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/cyberkarma/chatserver/cmd/runserver"
 	"os"
 
 	"github.com/rs/zerolog/log"
@@ -16,4 +17,8 @@ func Execute() {
 		log.Fatal().Err(err).Msg("execute root cmd")
 		os.Exit(1)
 	}
+}
+
+func init() {
+	rootCmd.AddCommand(runserver.RunServer)
 }
