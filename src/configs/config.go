@@ -4,12 +4,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-type ProdConfig struct {
-	Port string `mapstructure:"port"`
-}
-
 type Config struct {
-	Pc ProdConfig `mapstructure:"prod"`
+	Server string `mapstructure:"port"`
 }
 
 var vp *viper.Viper
@@ -21,6 +17,8 @@ func LoadConfig() (Config, error) {
 	vp.AddConfigPath("./configs")
 	vp.AddConfigPath(".")
 	vp.SetConfigType("json")
+
+	vp.SetDefault("port", "localhost:3001")
 
 	err := vp.ReadInConfig()
 	if err != nil {

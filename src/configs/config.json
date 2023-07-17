@@ -1,5 +1,3 @@
 {
-  "prod": {
-    "port": "localhost:3000"
-  }
+  "port": "localhost:3000"
 }

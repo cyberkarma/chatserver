@@ -15,19 +15,18 @@ var RunServer = &cobra.Command{
 	Use:   "runServer",
 	Short: "Run the server",
 	Long:  "Blablabla",
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		router := server.RouterBuilder{}
 		config, err := configs.LoadConfig()
 		if err != nil {
 			fmt.Println(err)
-		} else {
-			fmt.Println(config.Pc.Port, "-config")
 		}
 
-		runErr := http.ListenAndServe(config.Pc.Port, router.Build())
+		runErr := http.ListenAndServe(config.Server, router.Build())
 		if runErr != nil {
 			fmt.Println(runErr)
 		}
 		fmt.Println("Server is working now")
+		return nil
 	},
 }
