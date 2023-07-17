@@ -1,7 +1,10 @@
 package runserver
 
 import (
-	"fmt"
+	"github.com/cyberkarma/chatserver/configs"
+	"github.com/pkg/errors"
+	"strconv"
+
 	"github.com/cyberkarma/chatserver/server"
 	"github.com/spf13/cobra"
 	_ "github.com/spf13/cobra"
@@ -12,12 +15,17 @@ var RunServer = &cobra.Command{
 	Use:   "runServer",
 	Short: "Run the server",
 	Long:  "Blablabla",
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		router := server.RouterBuilder{}
-		err := http.ListenAndServe(":3000", router.Build())
+		config, err := configs.LoadConfig()
 		if err != nil {
-			fmt.Println(err)
+			return errors.Wrap(err, "LoadConfig error")
 		}
-		fmt.Println("Server is working now")
+
+		runErr := http.ListenAndServe("localhost:"+strconv.Itoa(config.Port), router.Build())
+		if runErr != nil {
+			return errors.Wrap(runErr, "RunServer error")
+		}
+		return nil
 	},
 }
