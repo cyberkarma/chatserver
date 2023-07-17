@@ -19,7 +19,7 @@ var RunServer = &cobra.Command{
 		router := server.RouterBuilder{}
 		config, err := configs.LoadConfig()
 		if err != nil {
-			return err
+			return errors.Wrap(err, "LoadConfig error")
 		}
 
 		runErr := http.ListenAndServe("localhost:"+strconv.Itoa(config.Port), router.Build())
