@@ -5,12 +5,11 @@ import (
 )
 
 type Config struct {
-	Server string `mapstructure:"port"`
+	Port int `mapstructure:"port"`
 }
 
-var vp *viper.Viper
-
 func LoadConfig() (Config, error) {
+	var vp *viper.Viper
 	vp = viper.New()
 	var config Config
 	vp.SetConfigName("config")
