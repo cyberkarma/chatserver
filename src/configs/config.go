@@ -5,7 +5,8 @@ import (
 )
 
 type Config struct {
-	Port int `mapstructure:"port"`
+	Server int    `mapstructure:"server"`
+	DB     string `mapstructure:"db"`
 }
 
 func LoadConfig() (Config, error) {
