@@ -14,14 +14,6 @@ import (
 	"net/http"
 )
 
-const (
-	host     = "localhost"
-	port     = 54320
-	user     = "postgres"
-	password = "password"
-	dbname   = "test"
-)
-
 var RunServer = &cobra.Command{
 	Use:   "runServer",
 	Short: "Run the server",
@@ -35,24 +27,20 @@ var RunServer = &cobra.Command{
 		}
 
 		//DB connection pool part
-		dsn := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s", user, password, host, port, dbname)
+		dsn := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s", config.User, config.Password, config.Host, config.Dbport, config.Dbname)
 		pool, err := pgxpool.Connect(context.Background(), dsn)
 		if err != nil {
-			fmt.Println(err, "27 строка")
-		} else {
-			fmt.Println(pool, "31 строка")
+			return errors.Wrap(err, "Pool connection error")
 		}
-		pingErr := pool.Ping(context.Background())
-		if pingErr != nil {
-			fmt.Println(pingErr, "33 строка")
-		} else {
-			fmt.Println("Ошибки нет 35 строка")
+		err = pool.Ping(context.Background())
+		if err != nil {
+			return errors.Wrap(err, "Pool ping error")
 		}
 
 		//Run server part
-		runErr := http.ListenAndServe("localhost:"+strconv.Itoa(config.Port), router.Build())
-		if runErr != nil {
-			return errors.Wrap(runErr, "RunServer error")
+		err = http.ListenAndServe("localhost:"+strconv.Itoa(config.Port), router.Build())
+		if err != nil {
+			return errors.Wrap(err, "RunServer error")
 		}
 		return nil
 	},
