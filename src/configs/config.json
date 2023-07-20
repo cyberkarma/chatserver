@@ -1,8 +1,4 @@
 {
-  "port": 3000,
-  "host": "localhost",
-  "dbport": 54320,
-  "user": "postgres",
-  "password": "password",
-  "dbname": "test"
+  "server": 3000,
+  "db": "postgresql://postgres:password@localhost:54320/test"
 }

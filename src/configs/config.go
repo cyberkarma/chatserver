@@ -5,12 +5,8 @@ import (
 )
 
 type Config struct {
-	Port     int    `mapstructure:"port"`
-	Host     string `json:"host"`
-	Dbport   int    `json:"dbport"`
-	User     string `json:"user"`
-	Password string `json:"password"`
-	Dbname   string `json:"dbname"`
+	Server int    `mapstructure:"server"`
+	DB     string `mapstructure:"db"`
 }
 
 func LoadConfig() (Config, error) {

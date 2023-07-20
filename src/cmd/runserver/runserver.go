@@ -2,7 +2,6 @@ package runserver
 
 import (
 	"context"
-	"fmt"
 	"github.com/cyberkarma/chatserver/configs"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/pkg/errors"
@@ -27,8 +26,7 @@ var RunServer = &cobra.Command{
 		}
 
 		//DB connection pool part
-		dsn := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s", config.User, config.Password, config.Host, config.Dbport, config.Dbname)
-		pool, err := pgxpool.Connect(context.Background(), dsn)
+		pool, err := pgxpool.Connect(context.Background(), config.DB)
 		if err != nil {
 			return errors.Wrap(err, "Pool connection error")
 		}
@@ -38,7 +36,7 @@ var RunServer = &cobra.Command{
 		}
 
 		//Run server part
-		err = http.ListenAndServe("localhost:"+strconv.Itoa(config.Port), router.Build())
+		err = http.ListenAndServe("localhost:"+strconv.Itoa(config.Server), router.Build())
 		if err != nil {
 			return errors.Wrap(err, "RunServer error")
 		}
