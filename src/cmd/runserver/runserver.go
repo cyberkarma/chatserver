@@ -2,6 +2,7 @@ package runserver
 
 import (
 	"context"
+	"fmt"
 	"github.com/cyberkarma/chatserver/configs"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/pkg/errors"
@@ -40,6 +41,7 @@ var RunServer = &cobra.Command{
 		if err != nil {
 			return errors.Wrap(err, "RunServer error")
 		}
+		fmt.Println("Server is running!")
 		return nil
 	},
 }
