@@ -3,10 +3,9 @@ package runserver
 import (
 	"context"
 	"fmt"
-	"github.com/cyberkarma/chatserver/configs"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/pkg/errors"
-	"strconv"
+	"github.com/spf13/viper"
 
 	"github.com/cyberkarma/chatserver/server"
 	"github.com/spf13/cobra"
@@ -19,15 +18,15 @@ var RunServer = &cobra.Command{
 	Short: "Run the server",
 	Long:  "Blablabla",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		viper.AutomaticEnv()
+		db := viper.Get("DB_PG")
+		serv := viper.Get("SERVER")
+		fmt.Println(db, serv, "DB AND SERVER")
 		//Router part
 		router := server.RouterBuilder{}
-		config, err := configs.LoadConfig()
-		if err != nil {
-			return errors.Wrap(err, "LoadConfig error")
-		}
 
 		//DB connection pool part
-		pool, err := pgxpool.Connect(context.Background(), config.DB)
+		pool, err := pgxpool.Connect(context.Background(), db.(string))
 		if err != nil {
 			return errors.Wrap(err, "Pool connection error")
 		}
@@ -37,7 +36,7 @@ var RunServer = &cobra.Command{
 		}
 
 		//Run server part
-		err = http.ListenAndServe("localhost:"+strconv.Itoa(config.Server), router.Build())
+		err = http.ListenAndServe("localhost:"+serv.(string), router.Build())
 		if err != nil {
 			return errors.Wrap(err, "RunServer error")
 		}
