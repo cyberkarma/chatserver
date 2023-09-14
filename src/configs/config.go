@@ -13,13 +13,7 @@ func LoadConfig() (Config, error) {
 	var vp *viper.Viper
 	vp = viper.New()
 	var config Config
-	vp.SetConfigName("config")
-	vp.AddConfigPath("./configs")
-	vp.AddConfigPath(".")
-	vp.SetConfigType("json")
-
 	vp.SetDefault("port", "localhost:3001")
-
 	err := vp.ReadInConfig()
 	if err != nil {
 		return Config{}, err
